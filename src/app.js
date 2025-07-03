@@ -6,7 +6,6 @@ import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import configureStore from './store/configureStore';
 import { addExpense } from './actions/expenses';
-import getVisibleExpenses from './selectors/expenses';
 import { Provider } from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -17,9 +16,6 @@ store.dispatch(addExpense({ description: 'Gas bill', amount: 120, createdAt: 120
 store.dispatch(addExpense({ description: 'Rent', amount: 109500, createdAt: 2000 }));
 //store.dispatch(setTextFilter('water'));
 
-const state = store.getState();
-const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-console.log(visibleExpenses);
 console.log(store.getState());
 
 
