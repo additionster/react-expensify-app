@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`testRenderExpenseListFilters 1`] = `
+<body>
+  <div>
+    <div>
+      <input
+        type="text"
+        value=""
+      />
+      <select>
+        <option
+          selected=""
+          value="date"
+        >
+          Date
+        </option>
+        <option
+          value="amount"
+        >
+          Amount
+        </option>
+      </select>
+      <div
+        class="react-datepicker-wrapper"
+      >
+        <div
+          class="react-datepicker__input-container"
+        >
+          <input
+            class=""
+            placeholder="startDate - endDate"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`testRenderExpenseListFiltersWithAltFilters 1`] = `
+<body>
+  <div>
+    <div>
+      <input
+        type="text"
+        value="bills"
+      />
+      <select>
+        <option
+          selected=""
+          value="date"
+        >
+          Date
+        </option>
+        <option
+          value="amount"
+        >
+          Amount
+        </option>
+      </select>
+      <div
+        class="react-datepicker-wrapper"
+      >
+        <div
+          class="react-datepicker__input-container"
+        >
+          <input
+            class=""
+            placeholder="startDate - endDate"
+            type="text"
+            value="01/01/1970 - 04/01/1970"
+          />
+          <button
+            aria-label="Close"
+            class="react-datepicker__close-icon"
+            tabindex="-1"
+            type="button"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

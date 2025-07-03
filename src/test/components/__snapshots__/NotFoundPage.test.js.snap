@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`shouldRenderNotFoundPageCorrectly 1`] = `
+<body>
+  <div>
+    <div>
+      Page not Found - 
+      <a
+        class="is-active"
+        data-discover="true"
+        href="/"
+      >
+        Go Home
+      </a>
+    </div>
+  </div>
+</body>
+`;

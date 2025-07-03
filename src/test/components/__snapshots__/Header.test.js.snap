@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`shouldRenderHeaderCorrectly 1`] = `
+<body>
+  <div>
+    <header>
+      <h1>
+        Expensify
+      </h1>
+      <a
+        aria-current="page"
+        class="is-active"
+        data-discover="true"
+        href="/"
+      >
+        Dashboard
+      </a>
+       |
+      <a
+        class="in-active"
+        data-discover="true"
+        href="/create"
+      >
+        Create Expense
+      </a>
+       |
+      <a
+        class="in-active"
+        data-discover="true"
+        href="/help"
+      >
+        Help
+      </a>
+    </header>
+  </div>
+</body>
+`;

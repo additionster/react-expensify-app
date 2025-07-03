@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`testRenderExpenseList 1`] = `
+<body>
+  <div>
+    <div>
+      <h1>
+        Expense List
+      </h1>
+      <div>
+        <h3>
+          <a
+            data-discover="true"
+            href="/edit/1"
+          >
+            Gum
+          </a>
+        </h3>
+        <p>
+          195
+           - 
+          0
+        </p>
+      </div>
+      <div>
+        <h3>
+          <a
+            data-discover="true"
+            href="/edit/2"
+          >
+            Rent
+          </a>
+        </h3>
+        <p>
+          109500
+           - 
+          -345600000
+        </p>
+      </div>
+      <div>
+        <h3>
+          <a
+            data-discover="true"
+            href="/edit/3"
+          >
+            Credit Card
+          </a>
+        </h3>
+        <p>
+          4500
+           - 
+          345600000
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`testRenderExpenseListWithEmptyList 1`] = `
+<body>
+  <div>
+    <div>
+      <h1>
+        Expense List
+      </h1>
+      <p>
+        No expenses
+      </p>
+    </div>
+  </div>
+</body>
+`;

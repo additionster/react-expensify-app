@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`testRenderExpenseListItem 1`] = `
+<body>
+  <div>
+    <div>
+      <h3>
+        <a
+          data-discover="true"
+          href="/edit/1"
+        >
+          Gum
+        </a>
+      </h3>
+      <p>
+        195
+         - 
+        0
+      </p>
+    </div>
+  </div>
+</body>
+`;
