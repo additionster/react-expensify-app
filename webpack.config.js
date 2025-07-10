@@ -14,11 +14,11 @@ module.exports = (env) => {
         entry: './src/app.js',
         output: {
             path: path.join(__dirname, 'public'),
-            filename: 'bundle.js'
+            filename: 'dist/bundle.js'
         },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: "style.css"
+                filename: "dist/styles.css"
             })
         ],
         module: {
@@ -55,9 +55,11 @@ module.exports = (env) => {
         devtool: isProduction? 'source-map' : 'inline-source-map',
         //webpack dev server
         devServer: {
-            static: {
-                directory: path.join(__dirname, 'public')
-            },
+            static: [
+                {
+                    directory: path.join(__dirname, 'public')
+                }   
+            ],
             port: 8080,
             //To feed front-end with resource on every server request
             historyApiFallback: true
