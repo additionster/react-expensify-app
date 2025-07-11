@@ -17,9 +17,9 @@ exports[`testRenderExpenseList 1`] = `
           </a>
         </h3>
         <p>
-          195
-           - 
-          0
+          $1.95
+          -
+          January 1st, 1970
         </p>
       </div>
       <div>
@@ -32,9 +32,9 @@ exports[`testRenderExpenseList 1`] = `
           </a>
         </h3>
         <p>
-          109500
-           - 
-          -345600000
+          $1,095.00
+          -
+          December 28th, 1969
         </p>
       </div>
       <div>
@@ -47,9 +47,9 @@ exports[`testRenderExpenseList 1`] = `
           </a>
         </h3>
         <p>
-          4500
-           - 
-          345600000
+          $45.00
+          -
+          January 5th, 1970
         </p>
       </div>
     </div>
