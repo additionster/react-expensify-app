@@ -5,6 +5,16 @@ exports[`shouldRenderExpenseDashboardPageCorrectly 1`] = `
   <div>
     <div>
       <div>
+        <h1>
+          Viewing 
+          0
+           
+          expenses
+           totalling 
+          $0.00
+        </h1>
+      </div>
+      <div>
         <input
           type="text"
           value=""
