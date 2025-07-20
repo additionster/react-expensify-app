@@ -9,7 +9,8 @@ export default () => {
             filters: filterReducer
         }),
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-            serializableCheck: false
+            serializableCheck: false,
+            thunk: true //enable redux-thunk
         }),
         devTools: window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     });

@@ -16,7 +16,7 @@ beforeEach(() => {
     renderer = render(
         <BrowserRouter>
             <Provider store={store}>
-                <AddExpensePage addExpense={addExpenseSpy} />
+                <AddExpensePage startAddExpense={addExpenseSpy} />
             </Provider>
         </BrowserRouter>
     );

@@ -1,5 +1,10 @@
-import { act } from 'react';
-import  { addExpense, editExpense, removeExpense } from '../../actions/expenses';
+import configureStore from '../../store/configureStore';
+import  { addExpense, editExpense, removeExpense, startAddExpense } from '../../actions/expenses';
+import { expenses } from '../fixtures/expenses';
+import { db, schema } from '../../firebase/firebase';
+import { get, ref } from 'firebase/database';
+
+const store = configureStore();
 
 test('testRemoveExpenseAction', () => {
     const action = removeExpense({ id: '123abc' });
@@ -31,23 +36,57 @@ test('testAddExpenseActionWithProvidedValues', () => {
     const action = addExpense(expenseData);
     expect(action).toEqual({
         type: 'ADD_EXPENSE',
-        expense: {
-            ...expenseData,
-            id: expect.any(String)
-        }
+        expense: expenseData
     });
 });
 
 test('testAddExpenseActionWithDefaultValues', () => {
-    const action = addExpense();
+    const action = addExpense(expenses[2]);
     expect(action).toEqual({
         type: 'ADD_EXPENSE',
-        expense: {
-            description: '',
-            note: '', 
-            amount: 0, 
-            createdAt: 0,
-            id: expect.any(String) 
-        }
+        expense: expenses[2]
     });
+});
+
+//use done for async function calls in jest tests
+test('testAddExpenseToDatabase', (done) => {
+    const expenseData = {
+        description: 'Mouse',
+        amount: 3000,
+        note: 'This one is better',
+        createdAt: 1000
+    };
+    store.dispatch(startAddExpense(expenseData))
+        .then(() => {
+            const receivedExpense = store.getState().expenses.at(0);
+            expect(receivedExpense).toEqual({
+                id: expect.any(String),
+                ...expenseData
+            });
+            return get(ref(db, `${schema}/${receivedExpense.id}`));
+        }).then((snapshot) => {
+            expect(snapshot.val()).toEqual(expenseData);
+            done();
+        });
+});
+
+test('testAddExpenseToDatabaseWithDefaultValues', (done) => {
+    const defaultExpenseValues = {
+        description: '',
+        note: '',
+        amount: 0,
+        createdAt: 0
+    };
+    store.dispatch(startAddExpense([]))
+        .then(() => {
+            const receivedExpense = store.getState().expenses.at(1);
+            expect(receivedExpense).toEqual({
+                id: expect.any(String),
+                ...defaultExpenseValues
+            });
+            return get(ref(db, `${schema}/${receivedExpense.id}`));
+        }).then((snapshot) => {
+            expect(snapshot.val()).toEqual(defaultExpenseValues);
+            done();
+        });
 });
