@@ -5,7 +5,7 @@ const selectExpenses = (expenses, { text, sortBy, startDate, endDate }) => {
         const createdAtMoment = moment(expense.createdAt);
         const startDateMatch = startDate ? startDate.isSameOrBefore(createdAtMoment, 'day') : true;
         const endDateMatch = endDate? endDate.isSameOrAfter(createdAtMoment, 'day') : true;
-        const textMatch = typeof text !== 'string' || expense.description.toLowerCase().indexOf(text.toLowerCase()) !== -1;
+        const textMatch = typeof text !== 'string' || expense.description?.toLowerCase().indexOf(text.toLowerCase()) !== -1;
         return startDateMatch && endDateMatch && textMatch;
     }).sort((a, b) => {
         if (sortBy == 'date')

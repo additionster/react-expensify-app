@@ -1,10 +1,18 @@
 import configureStore from '../../store/configureStore';
-import  { addExpense, editExpense, removeExpense, startAddExpense } from '../../actions/expenses';
+import  { addExpense, editExpense, removeExpense, setExpenses, startAddExpense, startSetExpenses } from '../../actions/expenses';
 import { expenses } from '../fixtures/expenses';
 import { db, schema } from '../../firebase/firebase';
-import { get, ref } from 'firebase/database';
+import { get, ref, set } from 'firebase/database';
 
 const store = configureStore();
+
+beforeEach((done) => {
+    const expensesData = {};
+    expenses.forEach(({ id, description, note, amount, createdAt }) => {
+        expensesData[id] = { description, note, amount, createdAt };
+    });
+    set(ref(db, schema), expensesData).then(() => done());
+});
 
 test('testRemoveExpenseAction', () => {
     const action = removeExpense({ id: '123abc' });
@@ -87,6 +95,23 @@ test('testAddExpenseToDatabaseWithDefaultValues', (done) => {
             return get(ref(db, `${schema}/${receivedExpense.id}`));
         }).then((snapshot) => {
             expect(snapshot.val()).toEqual(defaultExpenseValues);
+            done();
+        });
+});
+
+test('testSetExpenseWithData', () => {
+    const action = setExpenses(expenses);
+    expect(action).toEqual({
+        type: 'SET_EXPENSES',
+        expenses
+    });
+});
+
+test('testStartSetExpenses', (done) => {
+    store.dispatch(startSetExpenses())
+        .then(() => {
+            const receivedExpense = store.getState().expenses;
+            expect(receivedExpense).toEqual(expenses);
             done();
         });
 });

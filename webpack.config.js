@@ -7,18 +7,6 @@ const path = require('path');
 //const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
-// if (process.env.NODE_ENV === 'test')
-// {
-//     require('dotenv').config({
-//         path: './.env.test'
-//     });
-// }
-// else if (process.env.NODE_ENV === 'dev')
-// {
-//     require('dotenv').config({
-//         path: ['./.env.dev']
-//     });
-// }
 
 module.exports = (env) => {
     console.log(`path = ${env}`);
