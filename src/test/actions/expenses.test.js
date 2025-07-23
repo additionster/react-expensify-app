@@ -1,5 +1,5 @@
 import configureStore from '../../store/configureStore';
-import  { addExpense, editExpense, removeExpense, setExpenses, startAddExpense, startRemoveExpense, startSetExpenses } from '../../actions/expenses';
+import  { addExpense, editExpense, removeExpense, setExpenses, startAddExpense, startEditExpense, startRemoveExpense, startSetExpenses } from '../../actions/expenses';
 import { expenses } from '../fixtures/expenses';
 import { db, schema } from '../../firebase/firebase';
 import { get, ref, set } from 'firebase/database';
@@ -11,7 +11,7 @@ beforeEach((done) => {
     expenses.forEach(({ id, description, note, amount, createdAt }) => {
         expensesData[id] = { description, note, amount, createdAt };
     });
-    set(ref(db, schema), expensesData).then(    () => done());
+    set(ref(db, schema), expensesData).then(() => done());
 });
 
 test('testRemoveExpenseAction', () => {
@@ -20,6 +20,24 @@ test('testRemoveExpenseAction', () => {
         type: 'REMOVE_EXPENSE',
         expense: {id: '123abc'}
     });
+});
+
+test('testStartRemoveExpenseAction', (done) => {
+    const id = expenses[1].id;
+    store.dispatch(startRemoveExpense({ id }))
+        .then(() => {
+            return get(ref(db, schema));
+        }).then((snapshot) => {
+            const resultExpenses = [];
+            snapshot.forEach((childSnapshot) => {
+                resultExpenses.push({
+                    id: childSnapshot.key,
+                    ...childSnapshot.val()
+                });
+            });
+            expect(resultExpenses).toEqual(expenses.filter(expense => expense.id != id));
+            done();
+        });
 });
 
 test('testEditExpenseAction', () => {
@@ -32,6 +50,20 @@ test('testEditExpenseAction', () => {
         id: '123abc',
         updates
     });
+});
+
+test('testStartEditExpenseAction', (done) => {
+    const updates = {
+        note: 'Gum description'
+    };
+    const id = expenses[0].id;
+    store.dispatch(startEditExpense(id, updates))
+        .then(() => {
+            return get(ref(db, `${schema}/${id}`));
+        }).then((snapshot) => {
+            expect(snapshot.val().note).toEqual(updates.note);
+            done();
+        });
 });
 
 test('testAddExpenseActionWithProvidedValues', () => {
@@ -116,12 +148,3 @@ test('testStartSetExpenses', (done) => {
         });
 });
 
-test('testStartRemoveExpenses',(done) => {
-    const id = expenses[0].id;
-    store.dispatch(startRemoveExpense({ id }))
-        .then(() => {
-            const resultExpense = store.getState().expenses;
-            expect(resultExpense).toEqual(expenses.filter((expense => expense.id != id)));
-            done();
-        });
-});

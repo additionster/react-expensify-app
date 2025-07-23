@@ -8,10 +8,10 @@ import { Provider } from "react-redux";
 import { expenses } from "../fixtures/expenses";
 import moment from "moment";
 
-let editExpenseSpy, startRemoveExpenseSpy, store, renderer;
+let startEditExpenseSpy, startRemoveExpenseSpy, store, renderer;
 
 beforeEach(() => {
-    editExpenseSpy = jest.fn();
+    startEditExpenseSpy = jest.fn();
     startRemoveExpenseSpy = jest.fn();
     store = configureStore();
     renderer = render(
@@ -19,7 +19,7 @@ beforeEach(() => {
             <Provider store={store}>
                 <EditExpensePage 
                     expenses={expenses} 
-                    editExpense={editExpenseSpy} 
+                    startEditExpense={startEditExpenseSpy} 
                     startRemoveExpense={startRemoveExpenseSpy}
                     params={{id: expenses[0].id}}    
                 />
@@ -50,7 +50,7 @@ test('testRenderEditExpensePageOnSubmit', () => {
         target: { value: updatedAmount }
     });
     fireEvent.submit(submitButton);
-    expect(editExpenseSpy).toHaveBeenCalledWith(
+    expect(startEditExpenseSpy).toHaveBeenCalledWith(
         expenses[0].id,
         {
             amount: updatedAmount * 100,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ExpenseForm from './ExpenseForm';
 import { Navigate, useParams } from "react-router";
-import { editExpense, startRemoveExpense } from "../actions/expenses";
+import { startEditExpense, startRemoveExpense } from "../actions/expenses";
 
 //wrap hook (useParams) inside function based component
 function withParams(Component) {
@@ -15,7 +15,7 @@ export class EditExpensePage extends React.Component {
     }
 
     onSubmit = (expense) => {
-        this.props.editExpense(this.props.params.id, expense);
+        this.props.startEditExpense(this.props.params.id, expense);
         this.setState({submitted: true});
     }
 
@@ -48,7 +48,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    editExpense: (id, expense) => dispatch(editExpense(id, expense)),
+    startEditExpense: (id, expense) => dispatch(startEditExpense(id, expense)),
     startRemoveExpense: (id) => dispatch(startRemoveExpense({id}))
 })
 
