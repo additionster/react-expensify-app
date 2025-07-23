@@ -1,6 +1,6 @@
 import {v7 as uuid} from 'uuid';
 import { db, schema } from '../firebase/firebase';
-import { ref, push, get } from 'firebase/database';
+import { ref, push, get, remove } from 'firebase/database';
 
 //ADD expense
 export const addExpense = (expense) => ({
@@ -39,6 +39,15 @@ export const removeExpense = ({ id } = {}) => ({
         id
     }
 });
+
+export const startRemoveExpense = ({ id }) => {
+    return (dispatch) => {
+        return remove(ref(db, `${schema}/${id}`))
+            .then(() => {
+                dispatch(removeExpense({ id }));
+            });
+    };
+};
 
 //SET_EXPENSE
 export const setExpenses = (expenses) => ({

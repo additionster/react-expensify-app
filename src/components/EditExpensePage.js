@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ExpenseForm from './ExpenseForm';
 import { Navigate, useParams } from "react-router";
-import { editExpense, removeExpense } from "../actions/expenses";
+import { editExpense, startRemoveExpense } from "../actions/expenses";
 
 //wrap hook (useParams) inside function based component
 function withParams(Component) {
@@ -20,7 +20,7 @@ export class EditExpensePage extends React.Component {
     }
 
     onRemove = () => {
-        this.props.removeExpense(this.props.params.id);
+        this.props.startRemoveExpense(this.props.params.id);
         this.setState({submitted: true});
     }
 
@@ -49,7 +49,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     editExpense: (id, expense) => dispatch(editExpense(id, expense)),
-    removeExpense: (id) => dispatch(removeExpense({id}))
+    startRemoveExpense: (id) => dispatch(startRemoveExpense({id}))
 })
 
 const connectedEditExpense = connect(mapStateToProps, mapDispatchToProps)(EditExpensePage);

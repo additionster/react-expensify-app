@@ -8,11 +8,11 @@ import { Provider } from "react-redux";
 import { expenses } from "../fixtures/expenses";
 import moment from "moment";
 
-let editExpenseSpy, removeExpenseSpy, store, renderer;
+let editExpenseSpy, startRemoveExpenseSpy, store, renderer;
 
 beforeEach(() => {
     editExpenseSpy = jest.fn();
-    removeExpenseSpy = jest.fn();
+    startRemoveExpenseSpy = jest.fn();
     store = configureStore();
     renderer = render(
         <BrowserRouter>
@@ -20,7 +20,7 @@ beforeEach(() => {
                 <EditExpensePage 
                     expenses={expenses} 
                     editExpense={editExpenseSpy} 
-                    removeExpense={removeExpenseSpy}
+                    startRemoveExpense={startRemoveExpenseSpy}
                     params={{id: expenses[0].id}}    
                 />
             </Provider>
@@ -69,5 +69,5 @@ test('testRenderEditExpensePageOnRemove',() => {
     }));
     const removeButton = screen.getAllByRole('button').at(1);
     fireEvent.click(removeButton);
-    expect(removeExpenseSpy).toHaveBeenCalledWith(expenses[0].id);
+    expect(startRemoveExpenseSpy).toHaveBeenCalledWith(expenses[0].id);
 });
