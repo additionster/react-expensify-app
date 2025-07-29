@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getDatabase, set, ref, remove, update, get, onValue, push } from 'firebase/database';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -17,6 +18,7 @@ const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);
 export const db = getDatabase(app);
 export const schema = 'expenses';
+export const googleAuthProvider = new GoogleAuthProvider();
 // set(ref(db, 'users/user1'), {
 //     name: "PKT",
 //     age: 35,

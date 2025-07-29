@@ -5,23 +5,29 @@ import AddExpensePage from '../components/AddExpensePage';
 import EditExpensePage from '../components/EditExpensePage';
 import HelpPage from '../components/HelpPage';
 import NotFoundPage from '../components/NotFoundPage';
-import Header from '../components/Header';
+import LoginPage from '../components/LoginPage';
+import AuthListener from '../listeners/AuthListener';
+import PrivateRoute from './PrivateRoute';
 
 
 const NewBrowserRouter = () => (
     <BrowserRouter>
-        <Header />
+        <AuthListener />
         <Routes>
-            <Route path="/" element={<ExpenseDashboardPage />}/>
-            <Route path="/create"  element={<AddExpensePage />}/>
-            <Route path="/edit/:id"  element={<EditExpensePage />}/>
+            <Route path="/" element={<LoginPage />}/>
+            <Route element={<PrivateRoute />}>
+                <Route path="/dashboard" element={<ExpenseDashboardPage />}/>
+                <Route path="/create"  element={<AddExpensePage />}/>
+                <Route path="/edit/:id"  element={<EditExpensePage />}/>
+            </Route>
+            
             <Route path="/help"  element={<HelpPage />}/>
             <Route path="/*"  element={<NotFoundPage />}/>
         </Routes>
     </BrowserRouter>
 );
 
-const AppRouter = () => (
+const   AppRouter = () => (
     <React.StrictMode>
      <NewBrowserRouter />
     </React.StrictMode>

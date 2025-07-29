@@ -1,12 +1,14 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import expenseReducer from "../reducers/expenses";
 import filterReducer from "../reducers/filters";
+import authReducer from "../reducers/auth";
 
 export default () => {
     const store = configureStore({
         reducer: combineReducers({
             expenses: expenseReducer,
-            filters: filterReducer
+            filters: filterReducer,
+            auth: authReducer
         }),
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({
             serializableCheck: false,

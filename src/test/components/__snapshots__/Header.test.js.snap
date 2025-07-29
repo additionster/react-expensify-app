@@ -8,10 +8,9 @@ exports[`shouldRenderHeaderCorrectly 1`] = `
         Expensify
       </h1>
       <a
-        aria-current="page"
-        class="is-active"
+        class="in-active"
         data-discover="true"
-        href="/"
+        href="/dashboard"
       >
         Dashboard
       </a>
@@ -31,6 +30,9 @@ exports[`shouldRenderHeaderCorrectly 1`] = `
       >
         Help
       </a>
+      <button>
+        Logout
+      </button>
     </header>
   </div>
 </body>

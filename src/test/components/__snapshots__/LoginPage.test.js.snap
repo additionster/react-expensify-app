@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`testRenderLoginPage 1`] = `
+<body>
+  <div>
+    <div>
+      <button>
+        Login
+      </button>
+    </div>
+  </div>
+</body>
+`;
