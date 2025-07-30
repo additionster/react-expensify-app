@@ -3,15 +3,18 @@ import  { addExpense, editExpense, removeExpense, setExpenses, startAddExpense, 
 import { expenses } from '../fixtures/expenses';
 import { db, schema } from '../../firebase/firebase';
 import { get, ref, set } from 'firebase/database';
+import { login } from '../../actions/auth';
 
 const store = configureStore();
 
 beforeEach((done) => {
+    const uid = 'testUid';
     const expensesData = {};
+    store.dispatch(login(uid));
     expenses.forEach(({ id, description, note, amount, createdAt }) => {
         expensesData[id] = { description, note, amount, createdAt };
     });
-    set(ref(db, schema), expensesData).then(() => done());
+    set(ref(db, `users/${uid}/${schema}`), expensesData).then(() => done());
 });
 
 test('testRemoveExpenseAction', () => {
@@ -24,9 +27,10 @@ test('testRemoveExpenseAction', () => {
 
 test('testStartRemoveExpenseAction', (done) => {
     const id = expenses[1].id;
+    const uid = store.getState().auth.uid;
     store.dispatch(startRemoveExpense({ id }))
         .then(() => {
-            return get(ref(db, schema));
+            return get(ref(db, `users/${uid}/${schema}`));
         }).then((snapshot) => {
             const resultExpenses = [];
             snapshot.forEach((childSnapshot) => {
@@ -57,9 +61,10 @@ test('testStartEditExpenseAction', (done) => {
         note: 'Gum description'
     };
     const id = expenses[0].id;
+    const uid = store.getState().auth.uid;
     store.dispatch(startEditExpense(id, updates))
         .then(() => {
-            return get(ref(db, `${schema}/${id}`));
+            return get(ref(db, `users/${uid}/${schema}/${id}`));
         }).then((snapshot) => {
             expect(snapshot.val().note).toEqual(updates.note);
             done();
@@ -96,6 +101,7 @@ test('testAddExpenseToDatabase', (done) => {
         note: 'This one is better',
         createdAt: 1000
     };
+    const uid = store.getState().auth.uid;
     store.dispatch(startAddExpense(expenseData))
         .then(() => {
             const receivedExpense = store.getState().expenses.at(0);
@@ -103,7 +109,7 @@ test('testAddExpenseToDatabase', (done) => {
                 id: expect.any(String),
                 ...expenseData
             });
-            return get(ref(db, `${schema}/${receivedExpense.id}`));
+            return get(ref(db, `users/${uid}/${schema}/${receivedExpense.id}`));
         }).then((snapshot) => {
             expect(snapshot.val()).toEqual(expenseData);
             done();
@@ -117,6 +123,7 @@ test('testAddExpenseToDatabaseWithDefaultValues', (done) => {
         amount: 0,
         createdAt: 0
     };
+    const uid = store.getState().auth.uid;
     store.dispatch(startAddExpense([]))
         .then(() => {
             const receivedExpense = store.getState().expenses.at(1);
@@ -124,7 +131,7 @@ test('testAddExpenseToDatabaseWithDefaultValues', (done) => {
                 id: expect.any(String),
                 ...defaultExpenseValues
             });
-            return get(ref(db, `${schema}/${receivedExpense.id}`));
+            return get(ref(db, `users/${uid}/${schema}/${receivedExpense.id}`));
         }).then((snapshot) => {
             expect(snapshot.val()).toEqual(defaultExpenseValues);
             done();

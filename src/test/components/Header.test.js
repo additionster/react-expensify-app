@@ -10,7 +10,7 @@ beforeEach(() => {
     startLogoutSpy = jest.fn();
     renderer = render(
         <BrowserRouter>
-            <Header startLogout={startLogoutSpy}/>
+            <Header startLogout={startLogoutSpy} isAuthenticated={true}/>
         </BrowserRouter>
     );
 });

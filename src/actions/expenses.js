@@ -2,6 +2,7 @@ import {v7 as uuid} from 'uuid';
 import { db, schema } from '../firebase/firebase';
 import { ref, push, get, remove, update } from 'firebase/database';
 
+
 //ADD expense
 export const addExpense = (expense) => ({
     type: 'ADD_EXPENSE',
@@ -9,7 +10,8 @@ export const addExpense = (expense) => ({
 });
 
 export const startAddExpense = (expenseData = {}) => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
         const {
             description = '',
             note = '',
@@ -17,7 +19,7 @@ export const startAddExpense = (expenseData = {}) => {
             createdAt = 0
         } = expenseData;
         const expense = { description, note, amount, createdAt };
-        return push(ref(db, schema), expense)
+        return push(ref(db, `users/${uid}/${schema}`), expense)
             .then((ref) => {
                 dispatch(addExpense({
                     id: ref.key,
@@ -34,8 +36,9 @@ export const editExpense = (id, updates) => ({
 });
 
 export const startEditExpense = (id, updates) => {
-    return (dispatch) => {
-        return update(ref(db, `${schema}/${id}`), {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
+        return update(ref(db, `users/${uid}/${schema}/${id}`), {
             ...updates
         }).then(() => {
             dispatch(editExpense(id, updates));
@@ -51,8 +54,9 @@ export const removeExpense = ({ id } = {}) => ({
 });
 
 export const startRemoveExpense = ({ id }) => {
-    return (dispatch) => {
-        return remove(ref(db, `${schema}/${id}`))
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
+        return remove(ref(db, `users/${uid}/${schema}/${id}`))
             .then(() => {
                 dispatch(removeExpense({ id }));
             });
@@ -66,9 +70,10 @@ export const setExpenses = (expenses) => ({
 });
 
 export const startSetExpenses = () => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;
         const expenses = [];
-        return get(ref(db, schema))
+        return get(ref(db, `users/${uid}/${schema}`))
             .then((snapshot) => {
                 snapshot.forEach(childSnapshot => {
                     expenses.push({
